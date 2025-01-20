@@ -1787,6 +1787,9 @@ name = "recall-sdk"
 version = "0.0.1"
 source = { editable = "." }
 dependencies = [
+    { name = "eth-account" },
+    { name = "eth-typing" },
+    { name = "eth-utils" },
     { name = "requests" },
     { name = "web3" },
 ]
@@ -1807,6 +1810,9 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "eth-account", specifier = ">=0.13.4" },
+    { name = "eth-typing", specifier = ">=5.1.0" },
+    { name = "eth-utils", specifier = ">=5.1.0" },
     { name = "requests", specifier = ">=2.32.3" },
     { name = "web3", specifier = ">=7.7.0" },
 ]

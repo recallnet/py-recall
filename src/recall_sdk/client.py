@@ -2,12 +2,13 @@
 Recall client and wrapper contract interactions
 """
 
+from typing import Any, cast
+
 import requests
-from eth_account import Account
 from eth_account.account import LocalAccount
 from eth_typing import ChecksumAddress
 from eth_utils import currency, to_checksum_address
-from web3 import Web3
+from web3 import Account, Web3
 from web3._utils.events import EventLogErrorFlags
 from web3.contract import Contract
 from web3.exceptions import ContractLogicError
@@ -35,7 +36,6 @@ class Client:
     w3: Web3
     signer: LocalAccount
     evm_rpc_url: str
-    object_api_url: str
     object_api_url: str
     blob_manager: Contract
     bucket_manager: Contract
@@ -82,12 +82,12 @@ class Client:
         """Wait for a transaction receipt to be returned"""
         return self.w3.eth.wait_for_transaction_receipt(tx_hash)
 
-    def parse_tx_receipt(self, contract: Contract, tx_receipt: TxReceipt, event_type: str) -> dict:
+    def parse_tx_receipt(self, contract: Contract, tx_receipt: TxReceipt, event_type: str) -> Any:
         """Parse a transaction receipt for a given event type"""
         event = getattr(contract.events, event_type)()
         return event.process_receipt(tx_receipt, errors=EventLogErrorFlags.Discard)
 
-    def create_bucket(self, owner: str | None = None, metadata: dict | None = None):
+    def create_bucket(self, owner: str | None = None, metadata: dict | None = None) -> dict[Any, Any] | None:
         """Create a bucket for a given owner or default to the signer's address"""
         try:
             # Function arguments
@@ -106,13 +106,14 @@ class Client:
             ).build_transaction({
                 "from": self.get_signer_address(),
                 "gas": gas,
-                "maxFeePerGas": currency.to_wei(100, "wei"),
-                "maxPriorityFeePerGas": currency.to_wei(1, "wei"),
+                "maxFeePerGas": str(currency.to_wei(100, "wei")),
+                "maxPriorityFeePerGas": str(currency.to_wei(1, "wei")),
                 "nonce": self.get_nonce(),
             })
+            typed_tx = cast(dict[str, Any], tx)
             # Sign and send the transaction
-            signed_tx = self.signer.sign_transaction(tx)
-            tx_hash = self.w3.eth.send_raw_transaction(signed_tx["raw_transaction"])
+            signed_tx = self.signer.sign_transaction(typed_tx)
+            tx_hash = self.w3.eth.send_raw_transaction(HexBytes(signed_tx["raw_transaction"]))
 
             # Parse tx receipt
             rec = self.wait_for_tx_receipt(tx_hash)
@@ -120,30 +121,30 @@ class Client:
 
             return log[0] if len(log) > 0 else None
         except ContractLogicError as e:
-            raise ContractError(e) from e
+            raise ContractError(str(e)) from e
         except Exception as e:
-            raise UnexpectedError(e) from e
+            raise UnexpectedError(str(e)) from e
 
-    def list_buckets(self, owner: str | None = None):
+    def list_buckets(self, owner: str | None = None) -> Any:
         """List buckets for a given owner or default to the signer's address"""
         try:
             return self.bucket_manager.functions.listBuckets(
                 owner if owner is not None else self.get_signer_address(),
             ).call()
         except ContractLogicError as e:
-            raise ContractError(e) from e
+            raise ContractError(str(e)) from e
         except Exception as e:
-            raise UnexpectedError(e) from e
+            raise UnexpectedError(str(e)) from e
 
-    def get_object_state(self, bucket: str, key: str) -> dict | None:
+    def get_object_state(self, bucket: str, key: str) -> Any | None:
         """Get an object's state (without downloading the object)"""
         try:
             bucket_addr = to_checksum_address(bucket)
             return self.bucket_manager.functions.getObject(bucket_addr, key).call()
         except ContractLogicError as e:
-            raise ContractError(e) from e
+            raise ContractError(str(e)) from e
         except Exception as e:
-            raise UnexpectedError(e) from e
+            raise UnexpectedError(str(e)) from e
 
     def _ensure_object_exists(self, bucket: str, key: str, obj: dict | None) -> None:
         """Helper function to check if object exists and raise if not."""
@@ -170,9 +171,9 @@ class Client:
             else:
                 return b""
         except ContractLogicError as e:
-            raise ContractError(e) from e
+            raise ContractError(str(e)) from e
         except Exception as e:
-            raise UnexpectedError(e) from e
+            raise UnexpectedError(str(e)) from e
 
 
 if __name__ == "__main__":  # pragma: no cover
