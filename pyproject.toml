@@ -4,7 +4,7 @@ version = "0.0.1"
 description = "Python client for Recall Network storage & operations"
 authors = [{ name = "Recall Network Contributors", email = "dan@textile.io" }]
 readme = "README.md"
-keywords = ['python']
+keywords = ['python', 'recall', 'network', 'storage', 's3', 'bucket', 'web3', 'blockchain']
 requires-python = ">=3.9,<4.0"
 classifiers = [
     "Intended Audience :: Developers",
@@ -16,6 +16,10 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "requests>=2.32.3",
+    "web3>=7.7.0",
 ]
 
 [project.urls]
@@ -40,8 +44,6 @@ dev = [
 [build-system]
 requires = ["setuptools >= 61.0"]
 build-backend = "setuptools.build_meta"
-
-
 
 [tool.mypy]
 files = ["src"]
@@ -113,4 +115,3 @@ skip_empty = true
 [tool.coverage.run]
 branch = true
 source = ["src"]
-

@@ -1,1 +1,1 @@
-::: recall_sdk.foo
+::: recall_sdk.client

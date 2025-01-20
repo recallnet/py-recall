@@ -18,4 +18,4 @@ ADD . /app
 # Sync the project
 RUN uv sync --frozen
 
-CMD [ "python", "recall_sdk/foo.py"]
+# CMD [ "python", "recall_sdk/foo.py"]
