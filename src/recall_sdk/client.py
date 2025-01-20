@@ -22,7 +22,9 @@ from .constants import (
     CREDIT_MANAGER_ADDRESS,
     LOCALNET_EVM_RPC_URL,
     LOCALNET_OBJECT_API_URL,
+    RPC_TIMEOUT,
 )
+from .exceptions import ContractError, ObjectNotFoundError, UnexpectedError
 
 
 class Client:
@@ -115,13 +117,12 @@ class Client:
             # Parse tx receipt
             rec = self.wait_for_tx_receipt(tx_hash)
             log = self.parse_tx_receipt(self.bucket_manager, rec, "CreateBucket")
-            data = log[0]
 
-            return data
+            return log[0] if len(log) > 0 else None
         except ContractLogicError as e:
-            raise Exception(f"Contract error: {e}") from e
+            raise ContractError(e) from e
         except Exception as e:
-            raise Exception(f"Unexpected error: {e}") from e
+            raise UnexpectedError(e) from e
 
     def list_buckets(self, owner: str | None = None):
         """List buckets for a given owner or default to the signer's address"""
@@ -130,38 +131,48 @@ class Client:
                 owner if owner is not None else self.get_signer_address(),
             ).call()
         except ContractLogicError as e:
-            raise Exception(f"Contract error: {e}") from e
+            raise ContractError(e) from e
         except Exception as e:
-            raise Exception(f"Unexpected error: {e}") from e
+            raise UnexpectedError(e) from e
 
-    def get_object_state(self, bucket: str, key: str) -> dict:
+    def get_object_state(self, bucket: str, key: str) -> dict | None:
         """Get an object's state (without downloading the object)"""
         try:
             bucket_addr = to_checksum_address(bucket)
             return self.bucket_manager.functions.getObject(bucket_addr, key).call()
         except ContractLogicError as e:
-            raise Exception(f"Contract error: {e}") from e
+            raise ContractError(e) from e
         except Exception as e:
-            raise Exception(f"Unexpected error: {e}") from e
+            raise UnexpectedError(e) from e
+
+    def _ensure_object_exists(self, bucket: str, key: str, obj: dict | None) -> None:
+        """Helper function to check if object exists and raise if not."""
+        if obj is None:
+            raise ObjectNotFoundError(bucket, key)
 
     def get_object(self, bucket: str, key: str) -> bytes:
         """Get an object's data"""
         try:
-            object = self.get_object_state(bucket, key)
-            if object is None:
-                raise Exception(f"Object not found: {bucket}/{key}")
+            obj = self.get_object_state(bucket, key)
+            self._ensure_object_exists(bucket, key, obj)
             # Bucket addrs are in the format `0xff00...<id>`, but we need to convert to its ID address
             hex_str = bucket[2:]  # Remove '0x'
             id_start = hex_str.find("ff") + 2  # Skip past 'ff'
             hex_id = hex_str[id_start:].lstrip("0")  # Remove leading zeros
             actor_id = int(hex_id, 16)
             bucket_id_addr = "t0" + str(actor_id)
-            response = requests.get(f"{self.object_api_url}/v1/objects/{bucket_id_addr}/{key}")
-            return response.content
+            response = requests.get(
+                f"{self.object_api_url}/v1/objects/{bucket_id_addr}/{key}",
+                timeout=RPC_TIMEOUT,
+            )
+            if response.content:
+                return response.content
+            else:
+                return b""
         except ContractLogicError as e:
-            raise Exception(f"Contract error: {e}") from e
+            raise ContractError(e) from e
         except Exception as e:
-            raise Exception(f"Unexpected error: {e}") from e
+            raise UnexpectedError(e) from e
 
 
 if __name__ == "__main__":  # pragma: no cover
