@@ -175,14 +175,8 @@ class Client:
         try:
             obj = self.get_object_state(bucket, key)
             self._ensure_object_exists(bucket, key, obj)
-            # Bucket addrs are in the format `0xff00...<id>`, but we need to convert to its ID address
-            hex_str = bucket[2:]  # Remove '0x'
-            id_start = hex_str.find("ff") + 2  # Skip past 'ff'
-            hex_id = hex_str[id_start:].lstrip("0")  # Remove leading zeros
-            actor_id = int(hex_id, 16)
-            bucket_id_addr = "t0" + str(actor_id)
             response = requests.get(
-                f"{self.object_api_url}/v1/objects/{bucket_id_addr}/{key}",
+                f"{self.object_api_url}/v1/objects/{bucket}/{key}",
                 timeout=RPC_TIMEOUT,
             )
             if response.content:
