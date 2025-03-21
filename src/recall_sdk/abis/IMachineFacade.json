@@ -1,0 +1,379 @@
+{
+    "abi": [
+        {
+            "type": "event",
+            "name": "MachineCreated",
+            "inputs": [
+                {
+                    "name": "kind",
+                    "type": "uint8",
+                    "indexed": true,
+                    "internalType": "uint8"
+                },
+                {
+                    "name": "owner",
+                    "type": "address",
+                    "indexed": true,
+                    "internalType": "address"
+                },
+                {
+                    "name": "metadata",
+                    "type": "bytes",
+                    "indexed": false,
+                    "internalType": "bytes"
+                }
+            ],
+            "anonymous": false
+        },
+        {
+            "type": "event",
+            "name": "MachineInitialized",
+            "inputs": [
+                {
+                    "name": "kind",
+                    "type": "uint8",
+                    "indexed": true,
+                    "internalType": "uint8"
+                },
+                {
+                    "name": "machineAddress",
+                    "type": "address",
+                    "indexed": false,
+                    "internalType": "address"
+                }
+            ],
+            "anonymous": false
+        }
+    ],
+    "bytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+    "deployedBytecode": { "object": "0x", "sourceMap": "", "linkReferences": {} },
+    "methodIdentifiers": {},
+    "rawMetadata": "{\"compiler\":{\"version\":\"0.8.26+commit.8a97fa7a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint8\",\"name\":\"kind\",\"type\":\"uint8\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"bytes\",\"name\":\"metadata\",\"type\":\"bytes\"}],\"name\":\"MachineCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint8\",\"name\":\"kind\",\"type\":\"uint8\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"machineAddress\",\"type\":\"address\"}],\"name\":\"MachineInitialized\",\"type\":\"event\"}],\"devdoc\":{\"events\":{\"MachineCreated(uint8,address,bytes)\":{\"details\":\"Emitted when a machine is created.\",\"params\":{\"kind\":\"Machine kind, i.e., bucket (0) or timehub (1).\",\"metadata\":\"IPLD-encoded machine metadata (HashMap<String, String>).\",\"owner\":\"Machine owner address.\"}},\"MachineInitialized(uint8,address)\":{\"details\":\"Emitted when a machine is initialized.\",\"params\":{\"kind\":\"Machine kind, i.e., bucket (0) or timehub (1).\",\"machineAddress\":\"Machine address.\"}}},\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"src/interfaces/facades/IMachineFacade.sol\":\"IMachineFacade\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":true,\"runs\":1000000},\"remappings\":[\":@axelar-network/axelar-gmp-sdk-solidity/=lib/axelar-gmp-sdk-solidity/\",\":@axelar-network/interchain-token-service/=lib/interchain-token-service/\",\":@ensdomains/buffer/contracts/=lib/buffer/contracts/\",\":@filecoin-solidity/v0.8/=lib/filecoin-solidity/contracts/v0.8/\",\":@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/\",\":@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/\",\":@openzeppelin/foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/\",\":@prb/math/=lib/prb-math/src/\",\":axelar-gmp-sdk-solidity/=lib/axelar-gmp-sdk-solidity/contracts/\",\":buffer/=lib/buffer/contracts/\",\":ds-test/=lib/openzeppelin-contracts-upgradeable/lib/forge-std/lib/ds-test/src/\",\":erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/\",\":filecoin-solidity/=lib/filecoin-solidity/contracts/\",\":forge-std/=lib/forge-std/src/\",\":interchain-token-service/=lib/interchain-token-service/contracts/\",\":openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/\",\":openzeppelin-contracts/=lib/openzeppelin-contracts/\",\":openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/\",\":openzeppelin/=lib/filecoin-solidity/lib/openzeppelin-contracts-upgradeable/contracts/\",\":prb-math/=lib/prb-math/src/\",\":solidity-BigNumber/=lib/filecoin-solidity/contracts/vendor/solidity-BigNumber/src/\",\":solidity-cborutils/=lib/solidity-cborutils/\",\":solidity-cborutils/contracts/=lib/filecoin-solidity/lib/solidity-cborutils/contracts/\",\":solidity-stringutils/=lib/openzeppelin-foundry-upgrades/lib/solidity-stringutils/\"],\"viaIR\":true},\"sources\":{\"src/interfaces/facades/IMachineFacade.sol\":{\"keccak256\":\"0xd6ad1b9f46e392b381f1f2005f69db662e0d8b488cc9927a0733b312429d5092\",\"license\":\"MIT OR Apache-2.0\",\"urls\":[\"bzz-raw://11c941b16a64a2eb38de28e10fae08ac7be19881f9be2bc5036592d8a17f0448\",\"dweb:/ipfs/Qmdw9tn5Dabsp6uyTHhEwGnDXtMtAtRMWFb3NfYjFoYrBL\"]}},\"version\":1}",
+    "metadata": {
+        "compiler": { "version": "0.8.26+commit.8a97fa7a" },
+        "language": "Solidity",
+        "output": {
+            "abi": [
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint8",
+                            "name": "kind",
+                            "type": "uint8",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "owner",
+                            "type": "address",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "bytes",
+                            "name": "metadata",
+                            "type": "bytes",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "MachineCreated",
+                    "anonymous": false
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint8",
+                            "name": "kind",
+                            "type": "uint8",
+                            "indexed": true
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "machineAddress",
+                            "type": "address",
+                            "indexed": false
+                        }
+                    ],
+                    "type": "event",
+                    "name": "MachineInitialized",
+                    "anonymous": false
+                }
+            ],
+            "devdoc": { "kind": "dev", "methods": {}, "version": 1 },
+            "userdoc": { "kind": "user", "methods": {}, "version": 1 }
+        },
+        "settings": {
+            "remappings": [
+                "@axelar-network/axelar-gmp-sdk-solidity/=lib/axelar-gmp-sdk-solidity/",
+                "@axelar-network/interchain-token-service/=lib/interchain-token-service/",
+                "@ensdomains/buffer/contracts/=lib/buffer/contracts/",
+                "@filecoin-solidity/v0.8/=lib/filecoin-solidity/contracts/v0.8/",
+                "@openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/",
+                "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/",
+                "@openzeppelin/foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/",
+                "@prb/math/=lib/prb-math/src/",
+                "axelar-gmp-sdk-solidity/=lib/axelar-gmp-sdk-solidity/contracts/",
+                "buffer/=lib/buffer/contracts/",
+                "ds-test/=lib/openzeppelin-contracts-upgradeable/lib/forge-std/lib/ds-test/src/",
+                "erc4626-tests/=lib/openzeppelin-contracts-upgradeable/lib/erc4626-tests/",
+                "filecoin-solidity/=lib/filecoin-solidity/contracts/",
+                "forge-std/=lib/forge-std/src/",
+                "interchain-token-service/=lib/interchain-token-service/contracts/",
+                "openzeppelin-contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/",
+                "openzeppelin-contracts/=lib/openzeppelin-contracts/",
+                "openzeppelin-foundry-upgrades/=lib/openzeppelin-foundry-upgrades/src/",
+                "openzeppelin/=lib/filecoin-solidity/lib/openzeppelin-contracts-upgradeable/contracts/",
+                "prb-math/=lib/prb-math/src/",
+                "solidity-BigNumber/=lib/filecoin-solidity/contracts/vendor/solidity-BigNumber/src/",
+                "solidity-cborutils/=lib/solidity-cborutils/",
+                "solidity-cborutils/contracts/=lib/filecoin-solidity/lib/solidity-cborutils/contracts/",
+                "solidity-stringutils/=lib/openzeppelin-foundry-upgrades/lib/solidity-stringutils/"
+            ],
+            "optimizer": { "enabled": true, "runs": 1000000 },
+            "metadata": { "bytecodeHash": "ipfs" },
+            "compilationTarget": {
+                "src/interfaces/facades/IMachineFacade.sol": "IMachineFacade"
+            },
+            "evmVersion": "cancun",
+            "libraries": {},
+            "viaIR": true
+        },
+        "sources": {
+            "src/interfaces/facades/IMachineFacade.sol": {
+                "keccak256": "0xd6ad1b9f46e392b381f1f2005f69db662e0d8b488cc9927a0733b312429d5092",
+                "urls": [
+                    "bzz-raw://11c941b16a64a2eb38de28e10fae08ac7be19881f9be2bc5036592d8a17f0448",
+                    "dweb:/ipfs/Qmdw9tn5Dabsp6uyTHhEwGnDXtMtAtRMWFb3NfYjFoYrBL"
+                ],
+                "license": "MIT OR Apache-2.0"
+            }
+        },
+        "version": 1
+    },
+    "storageLayout": { "storage": [], "types": {} },
+    "ast": {
+        "absolutePath": "src/interfaces/facades/IMachineFacade.sol",
+        "id": 67768,
+        "exportedSymbols": { "IMachineFacade": [67767] },
+        "nodeType": "SourceUnit",
+        "src": "46:621:155",
+        "nodes": [
+            {
+                "id": 67750,
+                "nodeType": "PragmaDirective",
+                "src": "46:24:155",
+                "nodes": [],
+                "literals": ["solidity", "^", "0.8", ".26"]
+            },
+            {
+                "id": 67767,
+                "nodeType": "ContractDefinition",
+                "src": "72:594:155",
+                "nodes": [
+                    {
+                        "id": 67759,
+                        "nodeType": "EventDefinition",
+                        "src": "343:80:155",
+                        "nodes": [],
+                        "anonymous": false,
+                        "documentation": {
+                            "id": 67751,
+                            "nodeType": "StructuredDocumentation",
+                            "src": "103:235:155",
+                            "text": "@dev Emitted when a machine is created.\n @param kind Machine kind, i.e., bucket (0) or timehub (1).\n @param owner Machine owner address.\n @param metadata IPLD-encoded machine metadata (HashMap<String, String>)."
+                        },
+                        "eventSelector": "78344973573899e5da988496ab97476b3702ecfca371c6b25a61460f989d40d1",
+                        "name": "MachineCreated",
+                        "nameLocation": "349:14:155",
+                        "parameters": {
+                            "id": 67758,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 67753,
+                                    "indexed": true,
+                                    "mutability": "mutable",
+                                    "name": "kind",
+                                    "nameLocation": "378:4:155",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 67759,
+                                    "src": "364:18:155",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint8",
+                                        "typeString": "uint8"
+                                    },
+                                    "typeName": {
+                                        "id": 67752,
+                                        "name": "uint8",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "364:5:155",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint8",
+                                            "typeString": "uint8"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 67755,
+                                    "indexed": true,
+                                    "mutability": "mutable",
+                                    "name": "owner",
+                                    "nameLocation": "400:5:155",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 67759,
+                                    "src": "384:21:155",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    },
+                                    "typeName": {
+                                        "id": 67754,
+                                        "name": "address",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "384:7:155",
+                                        "stateMutability": "nonpayable",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_address",
+                                            "typeString": "address"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 67757,
+                                    "indexed": false,
+                                    "mutability": "mutable",
+                                    "name": "metadata",
+                                    "nameLocation": "413:8:155",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 67759,
+                                    "src": "407:14:155",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_bytes_memory_ptr",
+                                        "typeString": "bytes"
+                                    },
+                                    "typeName": {
+                                        "id": 67756,
+                                        "name": "bytes",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "407:5:155",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_bytes_storage_ptr",
+                                            "typeString": "bytes"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "363:59:155"
+                        }
+                    },
+                    {
+                        "id": 67766,
+                        "nodeType": "EventDefinition",
+                        "src": "595:69:155",
+                        "nodes": [],
+                        "anonymous": false,
+                        "documentation": {
+                            "id": 67760,
+                            "nodeType": "StructuredDocumentation",
+                            "src": "429:161:155",
+                            "text": "@dev Emitted when a machine is initialized.\n @param kind Machine kind, i.e., bucket (0) or timehub (1).\n @param machineAddress Machine address."
+                        },
+                        "eventSelector": "8f7252642373d5f0b89a0c5cd9cd242e5cd5bb1a36aec623756e4f52a8c1ea6e",
+                        "name": "MachineInitialized",
+                        "nameLocation": "601:18:155",
+                        "parameters": {
+                            "id": 67765,
+                            "nodeType": "ParameterList",
+                            "parameters": [
+                                {
+                                    "constant": false,
+                                    "id": 67762,
+                                    "indexed": true,
+                                    "mutability": "mutable",
+                                    "name": "kind",
+                                    "nameLocation": "634:4:155",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 67766,
+                                    "src": "620:18:155",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_uint8",
+                                        "typeString": "uint8"
+                                    },
+                                    "typeName": {
+                                        "id": 67761,
+                                        "name": "uint8",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "620:5:155",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_uint8",
+                                            "typeString": "uint8"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                },
+                                {
+                                    "constant": false,
+                                    "id": 67764,
+                                    "indexed": false,
+                                    "mutability": "mutable",
+                                    "name": "machineAddress",
+                                    "nameLocation": "648:14:155",
+                                    "nodeType": "VariableDeclaration",
+                                    "scope": 67766,
+                                    "src": "640:22:155",
+                                    "stateVariable": false,
+                                    "storageLocation": "default",
+                                    "typeDescriptions": {
+                                        "typeIdentifier": "t_address",
+                                        "typeString": "address"
+                                    },
+                                    "typeName": {
+                                        "id": 67763,
+                                        "name": "address",
+                                        "nodeType": "ElementaryTypeName",
+                                        "src": "640:7:155",
+                                        "stateMutability": "nonpayable",
+                                        "typeDescriptions": {
+                                            "typeIdentifier": "t_address",
+                                            "typeString": "address"
+                                        }
+                                    },
+                                    "visibility": "internal"
+                                }
+                            ],
+                            "src": "619:44:155"
+                        }
+                    }
+                ],
+                "abstract": false,
+                "baseContracts": [],
+                "canonicalName": "IMachineFacade",
+                "contractDependencies": [],
+                "contractKind": "interface",
+                "fullyImplemented": true,
+                "linearizedBaseContracts": [67767],
+                "name": "IMachineFacade",
+                "nameLocation": "82:14:155",
+                "scope": 67768,
+                "usedErrors": [],
+                "usedEvents": [67759, 67766]
+            }
+        ],
+        "license": "MIT OR Apache-2.0"
+    },
+    "id": 155
+}

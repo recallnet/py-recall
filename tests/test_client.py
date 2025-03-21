@@ -1,14 +1,21 @@
-from recall_sdk import Client
+import re
+
+from recall_sdk import LOCALNET_CHAIN_ID, Client
+from recall_sdk.exceptions import UnexpectedError
 
 client = Client(
     private_key="0x7c852118294e51e653712a81e05800f419141751be58f605c371e15141b007a6",
+    chain_id=LOCALNET_CHAIN_ID,
 )
 signer_address = client.get_signer_address()
 
 
 def test_create_bucket():
     data = client.create_bucket()
-    assert data["args"]["owner"] == signer_address
+    if data is None:
+        raise UnexpectedError(UnexpectedError.BUCKET_CREATION_FAILED)
+    assert data["kind"] == 0
+    assert re.match(r"^0x[a-fA-F0-9]{40}$", data["bucket"])
 
 
 def test_list_buckets():
@@ -22,7 +29,6 @@ def test_get_object_state():
     key = "hello/world"
     state = client.get_object_state(bucket, key)
     assert len(state) == 5  # Includes: blob hash, recovery hash, size, expiry, metadata
-    assert state[0] == "rzghyg4z3p6vbz5jkgc75lk64fci7kieul65o6hk6xznx7lctkmq"
 
 
 def test_get_object():

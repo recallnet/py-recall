@@ -1,42 +1,58 @@
-# py-recall
+# `py-recall`
 
-[![Release](https://img.shields.io/github/v/release/hokunet/py-recall)](https://img.shields.io/github/v/release/hokunet/py-recall)
-[![Build status](https://img.shields.io/github/actions/workflow/status/hokunet/py-recall/main.yml?branch=main)](https://github.com/hokunet/py-recall/actions/workflows/main.yml?query=branch%3Amain)
-[![codecov](https://codecov.io/gh/hokunet/py-recall/branch/main/graph/badge.svg)](https://codecov.io/gh/hokunet/py-recall)
-[![Commit activity](https://img.shields.io/github/commit-activity/m/hokunet/py-recall)](https://img.shields.io/github/commit-activity/m/hokunet/py-recall)
-[![License](https://img.shields.io/github/license/hokunet/py-recall)](https://img.shields.io/github/license/hokunet/py-recall)
+[![Release](https://img.shields.io/github/v/release/recallnet/py-recall)](https://img.shields.io/github/v/release/recallnet/py-recall)
+[![Build status](https://img.shields.io/github/actions/workflow/status/recallnet/py-recall/main.yml?branch=main)](https://github.com/recallnet/py-recall/actions/workflows/main.yml?query=branch%3Amain)
+[![codecov](https://codecov.io/gh/recallnet/py-recall/branch/main/graph/badge.svg)](https://codecov.io/gh/recallnet/py-recall)
+[![Commit activity](https://img.shields.io/github/commit-activity/m/recallnet/py-recall)](https://img.shields.io/github/commit-activity/m/recallnet/py-recall)
+[![License](https://img.shields.io/github/license/recallnet/py-recall)](https://img.shields.io/github/license/recallnet/py-recall)
 
-Python client for Recall Network storage & operations
+> Python client for Recall Network storage & operations
 
-- **Github repository**: <https://github.com/hokunet/py-recall/>
-- **Documentation** <https://hokunet.github.io/py-recall/>
+> [!WARNING]
+> This repository is a work in progress. It is not fully published yet nor is it ready for use.
 
-## Getting started with your project
+## Table of Contents
 
-### 1. Create a New Repository
+- [Background](#background)
+- [Usage](#usage)
+- [Development](#development)
+  - [1. Clone the repository](#1-clone-the-repository)
+  - [2. Install the dependencies](#2-install-the-dependencies)
+  - [3. Set up the virtual environment](#3-set-up-the-virtual-environment)
+  - [4. Run the pre-commit hooks](#4-run-the-pre-commit-hooks)
+  - [5. Run the checks and tests](#5-run-the-checks-and-tests)
+  - [6. Build the package](#6-build-the-package)
+- [Contributing](#contributing)
 
-First, create a repository on GitHub with the same name as this project, and then run the following
-commands:
+## Background
+
+This repository contains the Python client for Recall Network.
+
+## Usage
+
+This package is a work in progress.
+
+## Development
+
+### 1. Clone the repository
 
 ```bash
-git init -b main
-git add .
-git commit -m "init commit"
-git remote add origin git@github.com:hokunet/py-recall.git
-git push -u origin main
+git clone git@github.com:recallnet/py-recall.git
 ```
 
-### 2. Set Up Your Development Environment
-
-Then, install the environment and the pre-commit hooks with
+### 2. Install the dependencies
 
 ```bash
 make install
 ```
 
-This will also generate your `uv.lock` file
+### 3. Set up the virtual environment
 
-### 3. Run the pre-commit hooks
+```bash
+make install
+```
+
+### 4. Run the pre-commit hooks
 
 Initially, the CI/CD pipeline might be failing due to formatting issues. To resolve those run:
 
@@ -44,33 +60,26 @@ Initially, the CI/CD pipeline might be failing due to formatting issues. To reso
 uv run pre-commit run -a
 ```
 
-### 4. Commit the changes
+This will also generate your `uv.lock` file
 
-Lastly, commit the changes made by the two steps above to your repository.
+### 5. Run the checks and tests
 
 ```bash
-git add .
-git commit -m 'fix: formatting issues'
-git push origin main
+make check
 ```
 
-You are now ready to start development on your project! The CI/CD pipeline will be triggered when
-you open a pull request, merge to main, or when you create a new release.
+And run the tests with
 
-To finalize the set-up for publishing to PyPI, see
-[here](https://fpgmaas.github.io/cookiecutter-uv/features/publishing/#set-up-for-pypi). For
-activating the automatic documentation with MkDocs, see
-[here](https://fpgmaas.github.io/cookiecutter-uv/features/mkdocs/#enabling-the-documentation-on-github).
-To enable the code coverage reports, see
-[here](https://fpgmaas.github.io/cookiecutter-uv/features/codecov/).
+```bash
+make test
+```
 
-## Releasing a new version
+### 6. Build the package
 
-- Create an API Token on [PyPI](https://pypi.org/).
-- Add the API Token to your projects secrets with the name `PYPI_TOKEN` by visiting
-  [this page](https://github.com/hokunet/py-recall/settings/secrets/actions/new).
-- Create a [new release](https://github.com/hokunet/py-recall/releases/new) on Github.
-- Create a new tag in the form `*.*.*`.
+```bash
+make build
+```
 
-For more details, see
-[here](https://fpgmaas.github.io/cookiecutter-uv/features/cicd/#how-to-trigger-a-release).
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more information.

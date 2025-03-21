@@ -2,7 +2,7 @@
 Recall client and wrapper contract interactions
 """
 
-from typing import Any, cast
+from typing import Any, TypeVar, cast
 
 import requests
 from eth_account.account import LocalAccount
@@ -21,11 +21,16 @@ from .constants import (
     BUCKET_MANAGER_ADDRESS,
     CREDIT_MANAGER_ABI,
     CREDIT_MANAGER_ADDRESS,
-    LOCALNET_EVM_RPC_URL,
-    LOCALNET_OBJECT_API_URL,
+    IMACHINE_FACADE_ABI,
     RPC_TIMEOUT,
+    TESTNET_CHAIN_ID,
+    get_evm_rpc_url,
+    get_object_api_url,
 )
 from .exceptions import ContractError, ObjectNotFoundError, UnexpectedError
+from .types import CreatedBucketResponse, EventLog
+
+T = TypeVar("T")
 
 
 class Client:
@@ -44,10 +49,15 @@ class Client:
     def __init__(
         self,
         private_key: str,
-        evm_rpc_url: str = LOCALNET_EVM_RPC_URL,
-        object_api_url: str = LOCALNET_OBJECT_API_URL,
+        chain_id: int = TESTNET_CHAIN_ID,
+        evm_rpc_url: str | None = None,
+        object_api_url: str | None = None,
     ):
         # Set up web3 instance, signer, and objects API
+        if evm_rpc_url is None:
+            evm_rpc_url = get_evm_rpc_url(chain_id)
+        if object_api_url is None:
+            object_api_url = get_object_api_url(chain_id)
         w3 = Web3(Web3.HTTPProvider(evm_rpc_url))
         self.w3 = w3
         self.signer = Account.from_key(private_key)
@@ -82,12 +92,16 @@ class Client:
         """Wait for a transaction receipt to be returned"""
         return self.w3.eth.wait_for_transaction_receipt(tx_hash)
 
-    def parse_tx_receipt(self, contract: Contract, tx_receipt: TxReceipt, event_type: str) -> Any:
+    def parse_tx_receipt(self, contract: Contract, tx_receipt: TxReceipt, event_type: str) -> list[EventLog]:
         """Parse a transaction receipt for a given event type"""
         event = getattr(contract.events, event_type)()
         return event.process_receipt(tx_receipt, errors=EventLogErrorFlags.Discard)
 
-    def create_bucket(self, owner: str | None = None, metadata: dict | None = None) -> dict[Any, Any] | None:
+    def _handle_bucket_creation_failure(self) -> None:
+        """Handle bucket creation failure by raising an appropriate error."""
+        raise UnexpectedError(UnexpectedError.BUCKET_CREATION_FAILED)
+
+    def create_bucket(self, owner: str | None = None, metadata: dict | None = None) -> CreatedBucketResponse | None:
         """Create a bucket for a given owner or default to the signer's address"""
         try:
             # Function arguments
@@ -106,8 +120,8 @@ class Client:
             ).build_transaction({
                 "from": self.get_signer_address(),
                 "gas": gas,
-                "maxFeePerGas": str(currency.to_wei(100, "wei")),
-                "maxPriorityFeePerGas": str(currency.to_wei(1, "wei")),
+                "maxFeePerGas": currency.to_wei(100, "wei"),
+                "maxPriorityFeePerGas": currency.to_wei(1, "wei"),
                 "nonce": self.get_nonce(),
             })
             typed_tx = cast(dict[str, Any], tx)
@@ -116,10 +130,15 @@ class Client:
             tx_hash = self.w3.eth.send_raw_transaction(HexBytes(signed_tx["raw_transaction"]))
 
             # Parse tx receipt
+            machine_facade_contract = self.w3.eth.contract(
+                address=to_checksum_address(BUCKET_MANAGER_ADDRESS[self.get_chain_id()]), abi=IMACHINE_FACADE_ABI
+            )
             rec = self.wait_for_tx_receipt(tx_hash)
-            log = self.parse_tx_receipt(self.bucket_manager, rec, "CreateBucket")
-
-            return log[0] if len(log) > 0 else None
+            log = self.parse_tx_receipt(machine_facade_contract, rec, "MachineInitialized")
+            args = log[0]["args"] if len(log) > 0 else None
+            if args is None:
+                self._handle_bucket_creation_failure()
+            return CreatedBucketResponse(bucket=args["machineAddress"], kind=args["kind"])
         except ContractLogicError as e:
             raise ContractError(str(e)) from e
         except Exception as e:

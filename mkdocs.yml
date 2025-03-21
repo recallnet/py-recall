@@ -1,10 +1,10 @@
 site_name: recall-sdk
-repo_url: https://github.com/hokunet/py-recall
-site_url: https://hokunet.github.io/py-recall
+repo_url: https://github.com/recallnet/py-recall
+site_url: https://recallnet.github.io/py-recall
 site_description: Python client for Recall Network storage & operations
 site_author: Recall Network Contributors
 edit_uri: edit/main/docs/
-repo_name: hokunet/py-recall
+repo_name: recallnet/py-recall
 copyright: Maintained by <a href="https://textile.io">Textile</a>.
 
 nav:
@@ -41,7 +41,7 @@ theme:
 extra:
     social:
         - icon: fontawesome/brands/github
-          link: https://github.com/hokunet/py-recall
+          link: https://github.com/recallnet/py-recall
         - icon: fontawesome/brands/python
           link: https://pypi.org/project/py-recall
 

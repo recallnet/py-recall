@@ -1,3 +1,6 @@
+"""Recall SDK exceptions."""
+
+
 class RecallError(Exception):
     """Base exception for all Recall SDK errors."""
 
@@ -7,7 +10,7 @@ class RecallError(Exception):
 
 
 class ContractError(RecallError):
-    """Raised when a contract operation fails."""
+    """Exception raised for contract-related errors."""
 
     def __init__(self, message: str):
         self.message = message
@@ -15,15 +18,19 @@ class ContractError(RecallError):
 
 
 class ObjectNotFoundError(RecallError):
-    """Raised when an object cannot be found."""
+    """Exception raised when an object is not found."""
 
     def __init__(self, bucket: str, key: str):
-        self.message = f"Object not found: {bucket}/{key}"
-        super().__init__(self.message)
+        super().__init__(f"Object not found: {bucket}/{key}")
+        self.bucket = bucket
+        self.key = key
 
 
 class UnexpectedError(RecallError):
-    """Raised for unexpected errors."""
+    """Exception raised for unexpected errors."""
+
+    BUCKET_CREATION_FAILED = "Failed to create bucket: no event logs found"
+    UNKNOWN_CHAIN_ID = "Unknown chain ID: {}"
 
     def __init__(self, message: str):
         self.message = message
